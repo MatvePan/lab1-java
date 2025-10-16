@@ -127,96 +127,95 @@ public class Lab2 {
     }
     
     static void editrec(Reception recep[]){//Редактор отделения
-        System.out.println("Enter reception number for edit (for cancel enter 0)");
+        System.out.println("Enter reception number for edit (for back enter 0)");
         Scanner in = new Scanner(System.in);
-        int edinum = check();
         while(true){
+            int edinum = check();
             for(int i = 0; i < recep.length; i++){
                 if(recep[i].number == edinum){
-                    System.out.println("\n====>Reception " + recep[i].number + " editor<====");
-                    System.out.println("""
-                                       1. Open or close
-                                       2. Change doctor quantitny
-                                       3. Change name
-                                       4. Change number
-                                       0. Cancel
-                                       """);
-                    int mode = checkSE();
-                    switch(mode){
-                        case 1:
-                            System.out.println("Open or close reception:");
-                            while(true){
-                                String con = in.nextLine();
-                                if(con.equals("open") || con.equals("1") || con.equals("true")){
-                                    recep[i].open=true;
-                                    break;
-                                }
-                                else if(con.equals("close") || con.equals("0") || con.equals("false")){
-                                    recep[i].open = false;
-                                    break;
-                                }
-                                else{
-                                    System.out.println("Incorrect condition\n");
-                                    break;
-                                }
-                            }
-                            break;
-                        case 2:
-                            System.out.println("Enter new doctor quantity (max 18):");
-                            int docnum = check();
-                            if(docnum>18)
-                                System.out.println("It's so many\n");
-                            else if(docnum<=0)
-                                System.out.println("It's so small\n");
-                            else
-                                recep[i].maxDoc = docnum;
-                            break;
-                        case 3:
-                            System.out.println("Enter new name(for cancel enter 0)");
-                            while(true){
-                                String newname = in.nextLine();
-                                if(newname.equals("0"))
-                                    break;
-                                else{
-                                    recep[i].name = newname;
-                                    break;
-                                }
-                            }
-                            break;
-                        case 4:
-                            System.out.println("Enter new number (for cancel enter 0)");
-                            while(true){
-                                int nunum = check();
-                                if(nunum==0)
-                                    break;
-                                for(int j=0; j<recep.length; j++){
-                                    if(recep[j].number==recep[i].number){
-                                        System.out.println("Number is busy\n");
+                    while(true){
+                        System.out.println("\n====>Reception " + recep[i].number + " editor<====");
+                        System.out.println("""
+                                           1. Open or close
+                                           2. Change doctor quantitny
+                                           3. Change name
+                                           4. Change number
+                                           0. Cancel
+                                           """);
+                        int mode = checkSE();
+                        switch(mode){
+                            case 1:
+                                System.out.println("Open or close reception:");
+                                while(true){
+                                    String con = in.nextLine();
+                                    if(con.equals("open") || con.equals("1") || con.equals("true")){
+                                        recep[i].open=true;
+                                        break;
                                     }
-                                    if(nunum<0){
-                                        System.out.println("It's so small\n");
+                                    else if(con.equals("close") || con.equals("0") || con.equals("false")){
+                                        recep[i].open = false;
+                                        break;
                                     }
                                     else{
-                                        recep[i].number = nunum;
+                                        System.out.println("Incorrect condition\n");
                                         break;
                                     }
                                 }
-                            }
-                            break;
-                        case 0:
-                            return;
-                        default:
-                            System.out.println("Incorrect option\n");
+                                break;
+                            case 2:
+                                System.out.println("Enter new doctor quantity (max 18):");
+                                int docnum = check();
+                                if(docnum>18)
+                                    System.out.println("It's so many\n");
+                                else if(docnum<=0)
+                                    System.out.println("It's so small\n");
+                                else
+                                    recep[i].maxDoc = docnum;
+                                break;
+                            case 3:
+                                System.out.println("Enter new name(for cancel enter 0)");
+                                while(true){
+                                    String newname = in.nextLine();
+                                    if(newname.equals("0"))
+                                        break;
+                                    else{
+                                        recep[i].name = newname;
+                                        break;
+                                    }
+                                }
+                                break;
+                            case 4:
+                                System.out.println("Enter new number (for cancel enter 0)");
+                                while(true){
+                                    int nunum = check();
+                                    if(nunum==0)
+                                        break;
+                                    for(int j=0; j<recep.length; j++){
+                                        if(recep[j].number==recep[i].number){
+                                            System.out.println("Number is busy\n");
+                                        }
+                                        if(nunum<=0){
+                                            System.out.println("It's so small\n");
+                                        }
+                                        else{
+                                            recep[i].number = nunum;
+                                            break;
+                                        }
+                                    }
+                                }
+                                break;
+                            case 0:
+                                return;
+                            default:
+                                System.out.println("Incorrect option\n");
+                        }
                     }
                 }
                 else if(edinum == 0){
-                    break;
-                }
-                else{
-                    System.out.println("Reception not found\n");
-                    break;
+                    return;
                 }
             }
+            System.out.println("Reception not found\n");
         }
     }
     
@@ -267,18 +266,23 @@ public class Lab2 {
     
     static void showrec(Reception recep[]){//Функция показа всех отделений
         System.out.println("\n====>Receptions<====");
+        int norec=0;
         for(int i=0; i<recep.length; i++){
             if(recep[i]!=null){
+                norec++;
                 System.out.println("Reception number: " + recep[i].number);
                 System.out.println("Reception name: " + recep[i].name);
                 System.out.println("Doctor quantity: " + recep[i].maxDoc);
-                if(recep[i].open==true)
+                if(recep[i].open==true){
                     System.out.println("Condition: open\n");
-                else
+                }
+                else{
                     System.out.println("Condition: close\n");
+                }
             }
         }
-        System.out.println("No receptions\n");
+        if(norec==0)
+            System.out.println("No receptions\n");
     }
     
     static void reccon(Reception recep[]){//Функция открытия/закрытия отделения
